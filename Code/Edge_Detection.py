@@ -3,6 +3,8 @@ import os
 import numpy as np 
 import imutils
 from skimage.filters import threshold_local
+import pytesseract
+from PIL import Image
 
 
 def order_points(pts):
@@ -164,8 +166,14 @@ def main():
 #    gray= np.float32(edg)
 #    gre= cv2.cornerHarris(gray,2,3,0.04)
 #    gre = cv2.dilate(gre,None)
-#    edg[gre>0.01*gre.max()]=[0,0,255]    
+#    edg[gre>0.01*gre.max()]=[0,0,255]
 
+
+    postimage = "{}.png".format(os.getpid())
+    cv2.imwrite(postimage,warped)
+    text = pytesseract.image_to_string(Image.open(postimage))
+    print(text)
+    os.remove(postimage)
 
 
 
